@@ -1,4 +1,4 @@
-import { all, call, put, take, takeEvery } from "redux-saga/effects";
+import { all, call, put, take, takeEvery, takeLatest } from "redux-saga/effects";
 import { FETCH_DATA, FETCH_DATA1, FETCH_DATA_SUCCESS } from "./action";
 
 async function fetchUser(){
@@ -14,13 +14,14 @@ export function* worker(){
     yield put(FETCH_DATA_SUCCESS(data));
 }
 function worker2(){
-console.log("my my");
+console.log("My my!!!!....");
 }
 
 // root Saga
 export default function* mySaga(){
     yield all([
-        takeEvery(FETCH_DATA, worker),
+        // takeEvery(FETCH_DATA, worker),
+        takeLatest(FETCH_DATA, worker),
         takeEvery(FETCH_DATA1, worker2),
     ]);
     // while(true){

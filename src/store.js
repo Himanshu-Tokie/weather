@@ -1,12 +1,12 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { FETCH_DATA, FETCH_DATA1, FETCH_DATA_SUCCESS } from "./action"
 
-const initialState = []
+const initialState = {}
 
 const myReducer = createReducer(initialState,(builder)=>{
     builder.addCase(FETCH_DATA_SUCCESS,(state,action)=>{
         console.log(action.payload,18);
-        return [action.payload];
+        return action.payload;
     }).addCase(FETCH_DATA1,(state,action)=>{
         console.log(19);
     })
