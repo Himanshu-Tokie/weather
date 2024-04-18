@@ -1,20 +1,24 @@
+import { configureStore } from '@reduxjs/toolkit';
 import React from 'react';
 import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
 import App from './App';
 import { name as appName } from './app.json';
-import mySaga from './src/sagas';
+import { pokemonAPI } from './src/rtk';
+import pokemonReducer, { reducerPokemon } from './src/store';
+import createSagaMiddleware from 'redux-saga';
 import myReducer from './src/store';
-import { thunk } from 'redux-thunk';
-
+import mySaga from './src/sagas';
+import rootReducer from './src/store';
 const sagaMiddleware = createSagaMiddleware();
 // const store = createStore(myReducer, applyMiddleware(sagaMiddleware));
 
 const Store = configureStore({
-    reducer:myReducer,
-    middleware:() => [sagaMiddleware,thunk]
+  // reducer:{myReducer},
+    reducer: rootReducer,
+    // middleware:(getDefaultMiddleware) => [sagaMiddleware]
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(pokemonAPI.middleware).concat(sagaMiddleware),
 })
 sagaMiddleware.run(mySaga);
 
